@@ -19,7 +19,7 @@ function printUsage(): void {
 Vercel Source Downloader - Interactive CLI
 
 Usage:
-  node dist/main.js --token <token> [options]
+  vercel-sdl --token <token> [options]
 
 Authentication:
   --token <token>        Your Vercel API token (works for both personal and team)
@@ -43,19 +43,19 @@ Interactive Navigation:
 
 Examples:
   # Browse personal deployments interactively
-  node dist/main.js --token xxx
+  vercel-sdl --token xxx
 
   # Browse team deployments by team ID
-  node dist/main.js --token xxx --team team_abc123
+  vercel-sdl --token xxx --team team_abc123
 
   # Browse team deployments by slug
-  node dist/main.js --token xxx --slug my-team
+  vercel-sdl --token xxx --slug my-team
 
   # Browse with filters (20 production deployments)
-  node dist/main.js --token xxx --team team_abc123 --limit 20 --target production
+  vercel-sdl --token xxx --team team_abc123 --limit 20 --target production
 
   # Browse only ready deployments
-  node dist/main.js --token xxx --state READY
+  vercel-sdl --token xxx --state READY
 
 Note: If you get a 403 error accessing team resources, ensure your token was
       created from the team settings (not personal settings) in Vercel dashboard.
@@ -86,7 +86,7 @@ async function main(): Promise<void> {
     process.exit(0);
   }
 
-  // Prefer team-token if provided, fall back to token
+  // We accept both --token and --team-token for clarity, but they work the same way
   const token = args['team-token'] || args.token;
 
   if (!token) {
@@ -129,8 +129,6 @@ async function main(): Promise<void> {
       console.log('='.repeat(60) + '\n');
 
       console.log(formatDeployment(deployment, index));
-
-      // Use readline to ask for download confirmation
       console.log('\n' + '='.repeat(60));
       const readline = await import('readline/promises');
       const rl = readline.createInterface({
@@ -138,7 +136,7 @@ async function main(): Promise<void> {
         output: process.stdout,
       });
 
-      const answer = await rl.question('📥 Download source files? (y/n): ');
+      const answer = await rl.question('⇣ Download source files? (y/n): ');
       rl.close();
 
       if (answer.toLowerCase() === 'y') {
@@ -148,7 +146,7 @@ async function main(): Promise<void> {
           deployment.uid
         );
 
-        console.log(`\n📂 Will download to: ${outputDir}\n`);
+        console.log(`\n→ Will download to: ${outputDir}\n`);
 
         const downloader = new FileDownloader(
           client,
@@ -168,7 +166,7 @@ async function main(): Promise<void> {
           outputDir
         );
       } else {
-        console.log('\n✅ Deployment selected. Exiting...\n');
+        console.log('\n✓ Deployment selected. Exiting...\n');
       }
     }
   } catch (error) {

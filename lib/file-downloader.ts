@@ -55,7 +55,7 @@ export class FileDownloader {
   /// We fetch the entire file tree first to show accurate progress - users need to know
   /// upfront how many files they're downloading rather than discovering it gradually.
   async downloadAll(): Promise<DownloadStats> {
-    console.log('\n📦 Fetching file tree...');
+    console.log('\n▸ Fetching file tree...');
 
     const fileTree = await this.client.listFiles(this.deploymentId, {
       teamId: this.teamId,
@@ -63,7 +63,7 @@ export class FileDownloader {
     });
 
     this.progress.totalFiles = this.countFiles(fileTree);
-    console.log(`📊 Found ${this.progress.totalFiles} files\n`);
+    console.log(`ℹ Found ${this.progress.totalFiles} files\n`);
 
     await fs.mkdir(this.outputDir, { recursive: true });
 
@@ -106,7 +106,6 @@ export class FileDownloader {
       }
     }
 
-    // Process downloads in batches to control concurrency
     for (let i = 0; i < queue.length; i += CONCURRENCY) {
       const batch = queue.slice(i, i + CONCURRENCY);
       await Promise.all(batch.map(fn => fn()));
@@ -130,7 +129,6 @@ export class FileDownloader {
         }
       );
 
-      // Vercel returns file contents as base64 to handle binary files safely over JSON
       const buffer = Buffer.from(content.data, 'base64');
 
       const fullPath = path.join(this.outputDir, filePath);
@@ -140,7 +138,7 @@ export class FileDownloader {
       updateProgress(this.progress);
     } catch (error) {
       this.progress.failed.push(filePath);
-      console.error(`\n❌ Failed to download: ${filePath}`);
+      console.error(`\n✗ Failed to download: ${filePath}`);
     }
   }
 }

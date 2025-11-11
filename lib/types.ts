@@ -1,7 +1,6 @@
-/**
- * Vercel API Type Definitions
- * Based on Vercel REST API v6 documentation
- */
+//! Type definitions for Vercel API v6.
+//! These match the actual API response shapes. I extracted only what we need
+//! instead of importing an SDK - keeps things lean and we only use a few endpoints.
 
 export type DeploymentState =
   | 'BUILDING'
@@ -86,23 +85,28 @@ export interface VercelAPIError {
   };
 }
 
-// File tree types from Vercel API
+/// File tree structure from Vercel's deployment API.
+/// The tree is recursive - directories have children arrays while files have uids
+/// we use to fetch their contents. Vercel also returns lambda/middleware nodes but
+/// we treat those like regular files for downloading purposes.
 export type FileType = 'directory' | 'file' | 'symlink' | 'lambda' | 'middleware' | 'invalid';
 
 export interface FileTree {
   name: string;
   type: FileType;
-  uid?: string;              // Only for files
-  children?: FileTree[];     // Only for directories
-  contentType?: string;      // Only for files
-  mode?: number;             // Unix permissions
+  uid?: string;
+  children?: FileTree[];
+  contentType?: string;
+  mode?: number;
 }
 
+/// Vercel returns file contents as base64 to handle binary files safely over JSON.
+/// We decode this to a Buffer before writing to disk.
 export interface FileContent {
-  data: string;  // base64-encoded content
+  data: string;
 }
 
-// Download progress tracking
+/// Progress tracking for the download UI.
 export interface DownloadProgress {
   totalFiles: number;
   downloadedFiles: number;

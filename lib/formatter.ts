@@ -65,7 +65,7 @@ function formatGitInfo(meta?: Record<string, string>): string {
   if (meta.githubCommitSha || meta.gitlabCommitSha || meta.bitbucketCommitSha) {
     const sha =
       meta.githubCommitSha || meta.gitlabCommitSha || meta.bitbucketCommitSha;
-    // Only show first 7 chars of SHA - that's enough to identify commits
+    // Short SHA is convention - 7 chars is enough to avoid collisions in most repos
     parts.push(`SHA: ${sha.substring(0, 7)}`);
   }
 
@@ -94,7 +94,7 @@ export function formatDeployment(deployment: Deployment, index: number): string 
     )}`,
   ];
 
-  // Only show ready time if it's meaningfully different from created time
+  // Skip showing ready time when it matches created - happens for instant deploys
   if (deployment.ready && deployment.ready !== deployment.created) {
     lines.push(
       `  ${colors.bright}Ready:${colors.reset} ${formatTimestamp(deployment.ready)}`

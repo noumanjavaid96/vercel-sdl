@@ -12,16 +12,15 @@ export function updateProgress(progress: DownloadProgress): void {
 
   const bar = createProgressBar(percentage);
 
-  // Carriage return lets us overwrite the same line repeatedly
   process.stdout.write(
-    `\r⬇️  Downloading: ${progress.downloadedFiles}/${progress.totalFiles} (${percentage}%) ${bar} ${truncate(progress.currentFile, 40)}`
+    `\r↓ Downloading: ${progress.downloadedFiles}/${progress.totalFiles} (${percentage}%) ${bar} ${truncate(progress.currentFile, 40)}`
   );
 }
 
 function createProgressBar(percentage: number, width = 20): string {
   const filled = Math.round((percentage / 100) * width);
   const empty = width - filled;
-  return '[' + '█'.repeat(filled) + '░'.repeat(empty) + ']';
+  return '[' + '■'.repeat(filled) + '·'.repeat(empty) + ']';
 }
 
 /// Truncates long file paths to fit in the progress bar.
@@ -40,16 +39,16 @@ export function printSummary(
   outputDir: string
 ): void {
   console.log('\n\n' + '='.repeat(60));
-  console.log('📥 DOWNLOAD COMPLETE');
+  console.log('↓ DOWNLOAD COMPLETE');
   console.log('='.repeat(60));
-  console.log(`✅ Successfully downloaded: ${successCount}/${totalFiles} files`);
+  console.log(`✓ Successfully downloaded: ${successCount}/${totalFiles} files`);
 
   if (failedCount > 0) {
-    console.log(`❌ Failed: ${failedCount} files`);
+    console.log(`✗ Failed: ${failedCount} files`);
   }
 
   const durationSec = (durationMs / 1000).toFixed(2);
-  console.log(`⏱️  Duration: ${durationSec}s`);
-  console.log(`📁 Location: ${outputDir}`);
+  console.log(`⏲ Duration: ${durationSec}s`);
+  console.log(`→ Location: ${outputDir}`);
   console.log('='.repeat(60) + '\n');
 }
