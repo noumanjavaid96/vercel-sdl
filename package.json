@@ -1,20 +1,30 @@
 {
-  "name": "vercel-source-downloader",
+  "name": "vercel-sdl",
   "version": "0.1.0",
   "description": "Download files from Vercel deployments",
   "type": "module",
   "main": "dist/main.js",
+  "bin": {
+    "vercel-sdl": "./dist/main.js"
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
   "scripts": {
     "build": "tsc",
     "dev": "tsc && node dist/main.js",
-    "start": "node dist/main.js"
+    "start": "node dist/main.js",
+    "prepublishOnly": "npm run build"
   },
   "keywords": [
     "vercel",
     "deployment",
-    "downloader"
+    "downloader",
+    "cli"
   ],
-  "author": "",
+  "author": "Ishtmeet Singh <ish.rissam@gmail.com>",
+  "homepage": "https://thenodebook.com",
   "license": "ISC",
   "devDependencies": {
     "@types/minimist": "^1.2.5",
