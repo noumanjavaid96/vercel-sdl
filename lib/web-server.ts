@@ -8,6 +8,7 @@ import express from 'express';
 import cors from 'cors';
 import * as path from 'path';
 import * as fs from 'fs/promises';
+import * as fsSync from 'fs';
 import archiver from 'archiver';
 import { VercelAPIClient } from './vercel-api.js';
 import { FileDownloader } from './file-downloader.js';
@@ -61,8 +62,11 @@ app.post('/api/download', async (req, res) => {
       });
     }
 
+    // Sanitize deploymentId to prevent path traversal attacks
+    const sanitizedDeploymentId = deploymentId.replace(/[^a-zA-Z0-9_-]/g, '_');
+
     const client = new VercelAPIClient(token);
-    const outputDir = path.join(process.cwd(), 'temp-downloads', deploymentId);
+    const outputDir = path.join(process.cwd(), 'temp-downloads', sanitizedDeploymentId);
 
     // Clean up any existing directory
     try {
@@ -83,10 +87,10 @@ app.post('/api/download', async (req, res) => {
     const stats = await downloader.downloadAll();
 
     // Create a zip file
-    const zipPath = path.join(process.cwd(), 'temp-downloads', `${deploymentId}.zip`);
+    const zipPath = path.join(process.cwd(), 'temp-downloads', `${sanitizedDeploymentId}.zip`);
     
     await new Promise<void>((resolve, reject) => {
-      const output = require('fs').createWriteStream(zipPath);
+      const output = fsSync.createWriteStream(zipPath);
       const archive = archiver('zip', { zlib: { level: 9 } });
 
       output.on('close', () => resolve());
@@ -98,7 +102,7 @@ app.post('/api/download', async (req, res) => {
     });
 
     // Send the zip file
-    res.download(zipPath, `${deploymentId}.zip`, async (err) => {
+    res.download(zipPath, `${sanitizedDeploymentId}.zip`, async (err) => {
       // Clean up after download
       try {
         await fs.rm(outputDir, { recursive: true, force: true });

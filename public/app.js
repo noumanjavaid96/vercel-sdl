@@ -54,10 +54,25 @@ fetchBtn.addEventListener('click', async () => {
         // Extract project ID from URL if provided
         let projectId = projectUrlInput.value.trim();
         if (projectId && (projectId.startsWith('http://') || projectId.startsWith('https://'))) {
-            // Try to extract project name from URL
-            const match = projectId.match(/https?:\/\/([^.]+)\./);
-            if (match) {
-                projectId = match[1];
+            // Try to extract project name from Vercel URL (e.g., https://my-project.vercel.app)
+            // Expected format: https://<project-name>.vercel.app or https://<deployment-id>-<project-name>.vercel.app
+            try {
+                const url = new URL(projectId);
+                const hostname = url.hostname;
+                // Extract the first part before .vercel.app
+                const match = hostname.match(/^([^.]+)\.vercel\.app$/);
+                if (match) {
+                    // If it has a deployment ID prefix (contains dash), take the part after first dash
+                    const namePart = match[1];
+                    const dashIndex = namePart.indexOf('-');
+                    projectId = dashIndex > 0 ? namePart.substring(dashIndex + 1) : namePart;
+                } else {
+                    // Not a vercel.app URL, use as-is
+                    projectId = projectId;
+                }
+            } catch (e) {
+                // If URL parsing fails, use the value as-is
+                console.warn('Could not parse project URL:', e);
             }
         }
 

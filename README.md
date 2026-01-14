@@ -58,25 +58,25 @@ Keep that token safe. You'll need it for every command.
 
 ### For Web UI (Recommended)
 
-No installation needed! Just run:
-```bash
-npx vercel-sdl
-npm run web
-```
-
-Or install globally for easier access:
+Install globally for easier access:
 ```bash
 npm install -g vercel-sdl
 ```
 
 Then start the web server:
 ```bash
-# If installed globally
+vercel-sdl-web
+# Or if you prefer using npm run
 cd /path/to/vercel-sdl
 npm run web
+```
 
-# Or from the package
-npx vercel-sdl web
+Alternatively, run directly with npx (no installation needed):
+```bash
+git clone https://github.com/noumanjavaid96/vercel-sdl
+cd vercel-sdl
+npm install
+npm run web
 ```
 
 ### For CLI
