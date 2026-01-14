@@ -4,7 +4,30 @@ Deployed something to Vercel and later needed to grab the source files? Vercel's
 
 ## What it does
 
-Browse your Vercel deployments interactively and download the source files. Simple as that.
+Browse your Vercel deployments and download the source files. Available as both a **web UI** and a **CLI tool**.
+
+### 🌐 Web UI (Recommended for most users)
+
+The easiest way to use this tool is through the web interface:
+
+```bash
+npx vercel-sdl-web
+# or if installed globally
+npm install -g vercel-sdl
+vercel-sdl-web
+```
+
+Then open your browser to `http://localhost:3000` and:
+1. Enter your Vercel API token
+2. Optionally enter a project URL or browse all deployments
+3. Select a deployment from the list
+4. Click download to get a ZIP file with all source files
+
+![Web UI Screenshot](https://github.com/user-attachments/assets/ced69dd9-544f-435a-9271-808f32af58bc)
+
+### 💻 CLI (For advanced users)
+
+Use the command-line interface for scripting and automation.
 
 ## Before you start: Get your Vercel token
 
@@ -33,7 +56,30 @@ Keep that token safe. You'll need it for every command.
 
 ## Installation
 
-Now that you have your token, you can proceed to install:
+### For Web UI (Recommended)
+
+No installation needed! Just run:
+```bash
+npx vercel-sdl
+npm run web
+```
+
+Or install globally for easier access:
+```bash
+npm install -g vercel-sdl
+```
+
+Then start the web server:
+```bash
+# If installed globally
+cd /path/to/vercel-sdl
+npm run web
+
+# Or from the package
+npx vercel-sdl web
+```
+
+### For CLI
 
 Install globally:
 ```bash
@@ -50,12 +96,44 @@ npx vercel-sdl --token YOUR_TOKEN
 If you want to contribute or modify the code:
 ```bash
 git clone <repository-url>
-cd vercel-source-downloader
+cd vercel-sdl
 npm install
 npm run build
+
+# Start the web UI
+npm run web
+
+# Or run the CLI
+npm run dev
 ```
 
 ## Usage
+
+### Web UI Usage
+
+1. Start the web server:
+```bash
+npm run web
+```
+
+2. Open your browser to `http://localhost:3000`
+
+3. Enter your Vercel API token (get one from [Vercel Settings](https://vercel.com/account/settings/tokens))
+
+4. Optionally filter by:
+   - Project URL or ID
+   - Team ID or Slug
+   - Environment (production/staging)
+   - Deployment state
+   - Number of deployments to fetch
+
+5. Click "Fetch Deployments" to see your deployments
+
+6. Select a deployment from the list
+
+7. Click "Download Source Files" to download a ZIP file with all source code
+
+### CLI Usage
 
 ```bash
 vercel-sdl --token YOUR_TOKEN

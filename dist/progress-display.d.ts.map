@@ -1,1 +1,0 @@
-{"version":3,"file":"progress-display.d.ts","sourceRoot":"","sources":["../lib/progress-display.ts"],"names":[],"mappings":"AAKA,OAAO,KAAK,EAAE,gBAAgB,EAAE,MAAM,YAAY,CAAC;AAEnD,wBAAgB,cAAc,CAAC,QAAQ,EAAE,gBAAgB,GAAG,IAAI,CAU/D;AAgBD,wBAAgB,YAAY,CAC1B,UAAU,EAAE,MAAM,EAClB,YAAY,EAAE,MAAM,EACpB,WAAW,EAAE,MAAM,EACnB,UAAU,EAAE,MAAM,EAClB,SAAS,EAAE,MAAM,GAChB,IAAI,CAcN"}

@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vercel Source Downloader</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📦 Vercel Source Downloader</h1>
+            <p class="subtitle">Download source code from your Vercel deployments</p>
+        </header>
+
+        <div class="card">
+            <h2>🔑 Step 1: Enter Your Vercel Token</h2>
+            <p class="help-text">
+                Don't have a token? 
+                <a href="https://vercel.com/account/settings/tokens" target="_blank">Create one here</a>
+            </p>
+            
+            <div class="form-group">
+                <label for="token">Vercel API Token <span class="required">*</span></label>
+                <input 
+                    type="password" 
+                    id="token" 
+                    placeholder="Enter your Vercel API token" 
+                    autocomplete="off"
+                />
+                <button id="toggleToken" class="btn-toggle">Show</button>
+            </div>
+
+            <div class="form-group">
+                <label for="projectUrl">Project URL (Optional)</label>
+                <input 
+                    type="text" 
+                    id="projectUrl" 
+                    placeholder="e.g., https://my-project.vercel.app or project ID"
+                />
+                <small>You can also browse all deployments without specifying a project</small>
+            </div>
+
+            <details class="advanced-options">
+                <summary>⚙️ Advanced Options</summary>
+                <div class="advanced-content">
+                    <div class="form-group">
+                        <label for="teamId">Team ID</label>
+                        <input type="text" id="teamId" placeholder="team_abc123" />
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="slug">Team Slug</label>
+                        <input type="text" id="slug" placeholder="my-team" />
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="target">Environment</label>
+                        <select id="target">
+                            <option value="">All</option>
+                            <option value="production">Production</option>
+                            <option value="staging">Staging</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="state">Deployment State</label>
+                        <select id="state">
+                            <option value="">All</option>
+                            <option value="READY">Ready</option>
+                            <option value="BUILDING">Building</option>
+                            <option value="ERROR">Error</option>
+                            <option value="QUEUED">Queued</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="limit">Number of Deployments</label>
+                        <input type="number" id="limit" value="20" min="1" max="100" />
+                    </div>
+                </div>
+            </details>
+
+            <button id="fetchDeployments" class="btn-primary">
+                🔍 Fetch Deployments
+            </button>
+        </div>
+
+        <div id="loadingState" class="loading hidden">
+            <div class="spinner"></div>
+            <p>Fetching deployments...</p>
+        </div>
+
+        <div id="errorState" class="error-message hidden"></div>
+
+        <div id="deploymentsSection" class="hidden">
+            <div class="card">
+                <h2>📋 Step 2: Select a Deployment</h2>
+                <div id="deploymentsList"></div>
+            </div>
+        </div>
+
+        <div id="downloadSection" class="hidden">
+            <div class="card">
+                <h2>⬇️ Step 3: Download Source Code</h2>
+                <div id="selectedDeployment"></div>
+                <button id="downloadBtn" class="btn-primary">
+                    💾 Download Source Files
+                </button>
+                <div id="downloadProgress" class="hidden">
+                    <div class="progress-bar">
+                        <div class="progress-fill"></div>
+                    </div>
+                    <p id="downloadStatus">Preparing download...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>
+            Need help? Check the 
+            <a href="https://github.com/noumanjavaid96/vercel-sdl" target="_blank">documentation</a>
+        </p>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+</html>
