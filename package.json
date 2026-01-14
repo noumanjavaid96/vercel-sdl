@@ -5,34 +5,46 @@
   "type": "module",
   "main": "dist/main.js",
   "bin": {
-    "vercel-sdl": "./dist/main.js"
+    "vercel-sdl": "./dist/main.js",
+    "vercel-sdl-web": "./dist/web-server.js"
   },
   "files": [
     "dist",
+    "public",
     "README.md"
   ],
   "scripts": {
     "build": "tsc",
     "dev": "tsc && node dist/main.js",
     "start": "node dist/main.js",
+    "web": "npm run build && node dist/web-server.js",
     "prepublishOnly": "npm run build"
   },
   "keywords": [
     "vercel",
     "deployment",
     "downloader",
-    "cli"
+    "cli",
+    "web-ui",
+    "source-code",
+    "backup"
   ],
   "author": "Ishtmeet Singh <ish.rissam@gmail.com>",
   "homepage": "https://thenodebook.com",
   "license": "ISC",
   "devDependencies": {
+    "@types/archiver": "^7.0.0",
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.6",
     "@types/minimist": "^1.2.5",
     "@types/node": "^22.0.0",
     "@types/prompts": "^2.4.9",
     "typescript": "^5.6.0"
   },
   "dependencies": {
+    "archiver": "^7.0.1",
+    "cors": "^2.8.5",
+    "express": "^5.2.1",
     "minimist": "^1.2.8",
     "prompts": "^2.4.2"
   }
