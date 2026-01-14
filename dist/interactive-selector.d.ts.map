@@ -1,0 +1,1 @@
+{"version":3,"file":"interactive-selector.d.ts","sourceRoot":"","sources":["../lib/interactive-selector.ts"],"names":[],"mappings":"AAMA,OAAO,KAAK,EAAE,UAAU,EAAE,MAAM,YAAY,CAAC;AAG7C,UAAU,eAAe;IACvB,UAAU,EAAE,UAAU,CAAC;IACvB,KAAK,EAAE,MAAM,CAAC;CACf;AAMD,wBAAsB,gBAAgB,CACpC,WAAW,EAAE,UAAU,EAAE,GACxB,OAAO,CAAC,eAAe,GAAG,IAAI,CAAC,CA4CjC"}
